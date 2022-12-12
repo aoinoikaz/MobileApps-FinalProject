@@ -1,9 +1,13 @@
 package ca.conestogac.plu.dieball;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +16,9 @@ import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity
 {
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+
     // The number of orbs to be displayed on the screen
     private static final int ORB_COUNT = 9;
 
@@ -64,7 +71,7 @@ public class GameActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
+        
         orbLayout = findViewById(R.id.orbsLayout);
         netLayout = findViewById(R.id.netsLayout);
         //Toast.makeText(this, "Found layouts: " +  orbLayout + " | " + netLayout, Toast.LENGTH_SHORT).show();

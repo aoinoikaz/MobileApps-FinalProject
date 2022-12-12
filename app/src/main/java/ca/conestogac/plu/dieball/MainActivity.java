@@ -3,13 +3,20 @@ package ca.conestogac.plu.dieball;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -18,29 +25,27 @@ public class MainActivity extends AppCompatActivity
     private Button settingsBtn;
     private Button exitGameBtn;
 
+    private SharedPreferences sharedPref;
+
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
+
+    public TextView tvBattery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // drawer layout instance to toggle the menu icon to open
-        // drawer and back button to close drawer
+        startService(new Intent(getApplicationContext(), BatteryService.class));
+
         drawerLayout = findViewById(R.id.main_activity);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
-
-        // pass the Open and Close toggle for the drawer layout listener
-        // to toggle the button
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
-        // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // test
 
         startGameBtn = findViewById(R.id.startGameBtn);
         leaderboardBtn = findViewById(R.id.leaderboardBtn);
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity
                     startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                     break;
                 case R.id.exitGameBtn:
+                    System.exit(0);
                     break;
             }
         };
@@ -71,11 +77,6 @@ public class MainActivity extends AppCompatActivity
         exitGameBtn.setOnClickListener(buttonListeners);
     }
 
-    // override the onOptionsItemSelected()
-    // function to implement
-    // the item click listener callback
-    // to open and close the navigation
-    // drawer when the icon is clicked
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -83,5 +84,24 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStop() {
+        startService(new Intent(getApplicationContext(), BatteryService.class));
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        Boolean darkMode = sharedPref.getBoolean("darkMode", false);
+        if(darkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        super.onResume();
     }
 }
