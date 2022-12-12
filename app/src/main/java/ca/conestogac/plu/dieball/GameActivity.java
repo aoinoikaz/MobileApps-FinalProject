@@ -21,7 +21,6 @@ import android.widget.Toast;
 public class GameActivity extends AppCompatActivity
 {
 
-
     // The number of orbs to be displayed on the screen
     private static final int ORB_COUNT = 9;
 
@@ -70,9 +69,9 @@ public class GameActivity extends AppCompatActivity
 
         //orbLayout = findViewById(R.id.orbTableLayout);
 
-        orbRow1 = findViewById(R.id.orbRow1);
-        orbRow2 = findViewById(R.id.orbRow2);
-        orbRow3 = findViewById(R.id.orbRow3);
+        //orbRow1 = findViewById(R.id.orbRow1);
+        //orbRow2 = findViewById(R.id.orbRow2);
+        //orbRow3 = findViewById(R.id.orbRow3);
 
         netLayout = findViewById(R.id.netsLayout);
 
@@ -87,6 +86,7 @@ public class GameActivity extends AppCompatActivity
             netLayout.addView(net);
         }
 
+        /*
         for (int i = 0; i < ORB_COUNT; i++)
         {
             orbs[i] = new ImageView(this);
@@ -104,11 +104,12 @@ public class GameActivity extends AppCompatActivity
             {
                 orbRow3.addView(orbs[i]);
             }
-        }
+        }*/
 
         // Set the initial number of lives for the user
         lives = LIVES;
 
+        /*
         orbs[0].setOnTouchListener(new View.OnTouchListener()
         {
             @Override
@@ -136,6 +137,6 @@ public class GameActivity extends AppCompatActivity
                 }
                 return true;
             }
-        });
+        });*/
     }
 }

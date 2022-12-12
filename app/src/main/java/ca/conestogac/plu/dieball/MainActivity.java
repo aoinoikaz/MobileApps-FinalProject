@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,7 +70,6 @@ public class MainActivity extends AppCompatActivity
         leaderboardBtn.setOnClickListener(buttonListeners);
         settingsBtn.setOnClickListener(buttonListeners);
         exitGameBtn.setOnClickListener(buttonListeners);
-
 
     }
 

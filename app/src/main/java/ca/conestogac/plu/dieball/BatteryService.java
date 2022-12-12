@@ -37,7 +37,7 @@ public class BatteryService extends Service {
             channel.setDescription("channel for notifications");
             mNotificationManager.createNotificationChannel(channel);
 
-            if(batteryLevel <20) {
+            if(batteryLevel > 0) {
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext(), "ch1")
                         .setSmallIcon(R.mipmap.ic_launcher) // notification icon
                         .setContentTitle("Battery Level Low!")
