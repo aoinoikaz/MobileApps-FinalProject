@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+
+
         startGameBtn = findViewById(R.id.startGameBtn);
         leaderboardBtn = findViewById(R.id.leaderboardBtn);
         settingsBtn = findViewById(R.id.settingsBtn);
@@ -71,6 +73,15 @@ public class MainActivity extends AppCompatActivity
         settingsBtn.setOnClickListener(buttonListeners);
         exitGameBtn.setOnClickListener(buttonListeners);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
