@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="logo"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@drawable/penguin_svgrepo_com" />
 
         <Button
             android:id="@+id/startGameBtn"
