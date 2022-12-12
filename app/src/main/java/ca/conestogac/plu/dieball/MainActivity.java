@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -40,8 +42,27 @@ public class MainActivity extends AppCompatActivity
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // test
+        AssignListeners();
+    }
 
+    // override the onOptionsItemSelected()
+    // function to implement
+    // the item click listener callback
+    // to open and close the navigation
+    // drawer when the icon is clicked
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item))
+        {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private void AssignListeners()
+    {
         startGameBtn = findViewById(R.id.startGameBtn);
         leaderboardBtn = findViewById(R.id.leaderboardBtn);
         settingsBtn = findViewById(R.id.settingsBtn);
@@ -69,19 +90,6 @@ public class MainActivity extends AppCompatActivity
         leaderboardBtn.setOnClickListener(buttonListeners);
         settingsBtn.setOnClickListener(buttonListeners);
         exitGameBtn.setOnClickListener(buttonListeners);
-    }
 
-    // override the onOptionsItemSelected()
-    // function to implement
-    // the item click listener callback
-    // to open and close the navigation
-    // drawer when the icon is clicked
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

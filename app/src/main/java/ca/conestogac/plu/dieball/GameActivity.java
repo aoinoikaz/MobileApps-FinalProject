@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity
@@ -28,17 +30,19 @@ public class GameActivity extends AppCompatActivity
 
     // The colors of the orbs
     private static final int[] ORB_COLORS = {
-            Color.RED,
-            Color.BLUE,
-            Color.GREEN,
-            Color.YELLOW
+            R.mipmap.blue_orb,
+            R.mipmap.green_orb,
+            R.mipmap.red_orb,
+            R.mipmap.yellow_orb
     };
-
-    // The layout that contains the orbs
-    private LinearLayout orbLayout;
 
     // The layout that contains the nets
     private LinearLayout netLayout;
+
+    //private TableLayout orbLayout;
+    private TableRow orbRow1;
+    private TableRow orbRow2;
+    private TableRow orbRow3;
 
     // The ImageViews that represent the orbs
     private ImageView[] orbs;
@@ -49,25 +53,19 @@ public class GameActivity extends AppCompatActivity
     // The current number of lives for the user
     private int lives;
 
-    int MapImageToColor(ImageView image)
-    {
-        /*
-        if(image.getId() == R.mipmap.blue_orb)
-        {
-
-        }*/
-        return 0;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        orbLayout = findViewById(R.id.orbsLayout);
+        //orbLayout = findViewById(R.id.orbTableLayout);
+
+        orbRow1 = findViewById(R.id.orbRow1);
+        orbRow2 = findViewById(R.id.orbRow2);
+        orbRow3 = findViewById(R.id.orbRow3);
+
         netLayout = findViewById(R.id.netsLayout);
-        //Toast.makeText(this, "Found layouts: " +  orbLayout + " | " + netLayout, Toast.LENGTH_SHORT).show();
 
         // Create the orbs and add them to the layout
         orbs = new ImageView[ORB_COUNT];
@@ -91,9 +89,20 @@ public class GameActivity extends AppCompatActivity
         for (int i = 0; i < ORB_COUNT; i++)
         {
             orbs[i] = new ImageView(this);
-            //orbs[i].setImageResource(R.drawable.orb);
-            orbs[i].setColorFilter(ORB_COLORS[i % ORB_COLORS.length]);
-            orbLayout.addView(orbs[i]);
+            orbs[i].setImageResource(ORB_COLORS[i % ORB_COLORS.length]);
+
+            if(i < 3)
+            {
+                orbRow1.addView(orbs[i]);
+            }
+            else if (i > 2 && i < 6)
+            {
+                orbRow2.addView(orbs[i]);
+            }
+            else if (i > 5 && i < 9)
+            {
+                orbRow3.addView(orbs[i]);
+            }
         }
 
         /*
