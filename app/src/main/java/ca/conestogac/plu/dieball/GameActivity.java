@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,12 +14,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity
 {
-    public DrawerLayout drawerLayout;
-    public ActionBarDrawerToggle actionBarDrawerToggle;
+
 
     // The number of orbs to be displayed on the screen
     private static final int ORB_COUNT = 9;
@@ -25,27 +28,12 @@ public class GameActivity extends AppCompatActivity
     // The number of starting lives for the user
     private static final int LIVES = 3;
 
-    // The colors of the nets
-    private static final int[] NET_COLORS = {
-            Color.RED,
-            Color.BLUE,
-            Color.GREEN,
-            Color.YELLOW
-    };
-
-    // The colors of the orbs
-    private static final int[] ORB_COLORS = {
-            Color.RED,
-            Color.BLUE,
-            Color.GREEN,
-            Color.YELLOW
-    };
-
-    // The layout that contains the orbs
-    private LinearLayout orbLayout;
-
     // The layout that contains the nets
     private LinearLayout netLayout;
+
+    private TableRow orbRow1;
+    private TableRow orbRow2;
+    private TableRow orbRow3;
 
     // The ImageViews that represent the orbs
     private ImageView[] orbs;
@@ -56,92 +44,98 @@ public class GameActivity extends AppCompatActivity
     // The current number of lives for the user
     private int lives;
 
-    int MapImageToColor(ImageView image)
-    {
-        /*
-        if(image.getId() == R.mipmap.blue_orb)
-        {
+    // The colors of the nets
+    private static final int[] NET_COLORS = {
+            R.mipmap.blue_net,
+            R.mipmap.green_net,
+            R.mipmap.red_net,
+            R.mipmap.yellow_net
+    };
 
-        }*/
-        return 0;
-    }
+    // The colors of the orbs
+    private static final int[] ORB_COLORS = {
+            R.mipmap.blue_orb,
+            R.mipmap.green_orb,
+            R.mipmap.red_orb,
+            R.mipmap.yellow_orb
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        
-        orbLayout = findViewById(R.id.orbsLayout);
+
+
+        //orbLayout = findViewById(R.id.orbTableLayout);
+
+        orbRow1 = findViewById(R.id.orbRow1);
+        orbRow2 = findViewById(R.id.orbRow2);
+        orbRow3 = findViewById(R.id.orbRow3);
+
         netLayout = findViewById(R.id.netsLayout);
-        //Toast.makeText(this, "Found layouts: " +  orbLayout + " | " + netLayout, Toast.LENGTH_SHORT).show();
 
         // Create the orbs and add them to the layout
         orbs = new ImageView[ORB_COUNT];
 
-        ImageView blueNet = new ImageView(this);
-        blueNet.setImageResource(R.mipmap.blue_net);
-        netLayout.addView(blueNet);
-
-        ImageView greenNet = new ImageView(this);
-        greenNet.setImageResource(R.mipmap.green_net);
-        netLayout.addView(greenNet);
-
-        ImageView redNet = new ImageView(this);
-        redNet.setImageResource(R.mipmap.red_net);
-        netLayout.addView(redNet);
-
-        ImageView yellowNet = new ImageView(this);
-        yellowNet.setImageResource(R.mipmap.yellow_net);
-        netLayout.addView(yellowNet);
-
-        for (int i = 0; i < ORB_COUNT; i++)
-        {
-            orbs[i] = new ImageView(this);
-            //orbs[i].setImageResource(R.drawable.orb);
-            orbs[i].setColorFilter(ORB_COLORS[i % ORB_COLORS.length]);
-            orbLayout.addView(orbs[i]);
-        }
-
-        /*
         // Create the nets and add them to the layout
         for (int color : NET_COLORS)
         {
             ImageView net = new ImageView(this);
-            net.setImageResource(R.mipmap.blue_orb);
-            //net.setColorFilter(color);
-        }*/
+            net.setImageResource(color);
+            netLayout.addView(net);
+        }
+
+        for (int i = 0; i < ORB_COUNT; i++)
+        {
+            orbs[i] = new ImageView(this);
+            orbs[i].setImageResource(ORB_COLORS[i % ORB_COLORS.length]);
+
+            if(i < 3)
+            {
+                orbRow1.addView(orbs[i]);
+            }
+            else if (i > 2 && i < 6)
+            {
+                orbRow2.addView(orbs[i]);
+            }
+            else if (i > 5 && i < 9)
+            {
+                orbRow3.addView(orbs[i]);
+            }
+        }
 
         // Set the initial number of lives for the user
         lives = LIVES;
 
-        /*
-        // Set the touch listener for the first orb
         orbs[0].setOnTouchListener(new View.OnTouchListener()
         {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent)
+            public boolean onTouch(View v, MotionEvent event)
             {
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP)
+                switch (event.getAction())
                 {
-                    // Get the color of the first orb
-                    //currentOrbColor = orbs[0].getColorFilter().getColor();
+                    case MotionEvent.ACTION_DOWN:
+                        // Handle touch down
+                        break;
+                    case MotionEvent.ACTION_MOVE:
 
-                    // Shift the orbs up and respawn a new one at the end
-                    for (int i = 0; i < ORB_COUNT - 1; i++)
-                    {
-                        orbs[i] = orbs[i + 1];
-                    }
-                    orbs[ORB_COUNT - 1] = new ImageView(GameActivity.this);
-                    ///orbs[ORB_COUNT - 1].setImageResource(R.drawable.orb);
-                    orbs[ORB_COUNT - 1].setColorFilter(ORB_COLORS[(ORB_COUNT - 1) % ORB_COLORS.length]);
-                    orbLayout.addView(orbs[ORB_COUNT - 1]);
-
-                    // Set the touch listener for the new first orb
-                    orbs[0].setOnTouchListener(this);
+                        // Handle touch move
+                        float newX = event.getX();
+                        float newY = event.getY();
+                        orbs[0].setX(newX);
+                        orbs[0].setY(newY);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        orbRow1.removeView(orbs[0]);
+                        // Handle touch up
+                        break;
+                    default:
+                        break;
                 }
                 return true;
             }
-        });*/
+        });
     }
 }

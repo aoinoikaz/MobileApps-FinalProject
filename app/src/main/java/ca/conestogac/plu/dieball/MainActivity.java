@@ -8,15 +8,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-
-import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -29,8 +24,6 @@ public class MainActivity extends AppCompatActivity
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle actionBarDrawerToggle;
-
-    public TextView tvBattery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +39,7 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         startGameBtn = findViewById(R.id.startGameBtn);
         leaderboardBtn = findViewById(R.id.leaderboardBtn);
@@ -75,15 +69,8 @@ public class MainActivity extends AppCompatActivity
         leaderboardBtn.setOnClickListener(buttonListeners);
         settingsBtn.setOnClickListener(buttonListeners);
         exitGameBtn.setOnClickListener(buttonListeners);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
