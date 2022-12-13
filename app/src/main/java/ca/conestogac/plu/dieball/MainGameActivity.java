@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +58,15 @@ public class MainGameActivity extends AppCompatActivity implements SurfaceHolder
     // color of points
     private Paint pointColor = null;
 
+    private Context SELF = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_game);
+
+        SELF = this;
 
         surfaceView = findViewById(R.id.surfaceView);
         scoreTV = findViewById(R.id.scoreTextView);
@@ -76,7 +82,10 @@ public class MainGameActivity extends AppCompatActivity implements SurfaceHolder
 
         topBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                //Toast.makeText(SELF, "TopBtnClicked", Toast.LENGTH_LONG).show();
+
                 if(movingPosition.equals("bottom")) {
                     movingPosition = "top";
                 }
@@ -85,7 +94,10 @@ public class MainGameActivity extends AppCompatActivity implements SurfaceHolder
 
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                //Toast.makeText(SELF, "LeftBtnClicked", Toast.LENGTH_LONG).show();
+
                 if(movingPosition.equals("right")) {
                     movingPosition = "left";
                 }
@@ -94,7 +106,11 @@ public class MainGameActivity extends AppCompatActivity implements SurfaceHolder
 
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                //Toast.makeText(SELF, "RightBtnClicked", Toast.LENGTH_LONG).show();
+
+
                 if(movingPosition.equals("left")) {
                     movingPosition = "right";
                 }
@@ -103,7 +119,10 @@ public class MainGameActivity extends AppCompatActivity implements SurfaceHolder
 
         bottomBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
+                //Toast.makeText(SELF, "BottomBtnClicked", Toast.LENGTH_LONG).show();
+
                 if(movingPosition.equals("top")) {
                     movingPosition = "bottom ";
                 }
@@ -127,7 +146,8 @@ public class MainGameActivity extends AppCompatActivity implements SurfaceHolder
     }
 
     @Override
-    public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
+    public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder)
+    {
 
     }
 
@@ -218,11 +238,11 @@ public class MainGameActivity extends AppCompatActivity implements SurfaceHolder
                         break;
                     case "top":
                         snakePointsList.get(0).setPositionX(headPositionX);
-                        snakePointsList.get(0).setPositionY(headPositionY - (maxSizeOfSnake * 2));
+                        snakePointsList.get(0).setPositionY(headPositionY + (maxSizeOfSnake * 2));
                         break;
                     case "bottom":
                         snakePointsList.get(0).setPositionX(headPositionX);
-                        snakePointsList.get(0).setPositionY(headPositionY + (maxSizeOfSnake * 2));
+                        snakePointsList.get(0).setPositionY(headPositionY - (maxSizeOfSnake * 2));
                         break;
                 }
 
