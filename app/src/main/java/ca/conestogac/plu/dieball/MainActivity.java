@@ -9,6 +9,7 @@ import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity
             switch (view.getId())
             {
                 case R.id.startGameBtn:
-                    startActivity(new Intent(getApplicationContext(), GameActivity.class));
+                    startActivity(new Intent(getApplicationContext(), MainGameActivity.class));
                     break;
                 case R.id.leaderboardBtn:
                     startActivity(new Intent(getApplicationContext(), LeaderboardActivity.class));
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity
         exitGameBtn.setOnClickListener(buttonListeners);
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

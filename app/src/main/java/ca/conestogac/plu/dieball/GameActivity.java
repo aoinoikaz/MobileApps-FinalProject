@@ -7,8 +7,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
+import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,9 +26,8 @@ import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity
 {
-
     // The number of orbs to be displayed on the screen
-    private static final int ORB_COUNT = 9;
+    public static final int ORB_COUNT = 9;
 
     // The number of starting lives for the user
     private static final int LIVES = 3;
@@ -30,9 +35,14 @@ public class GameActivity extends AppCompatActivity
     // The layout that contains the nets
     private LinearLayout netLayout;
 
+    private LinearLayout orbLayout;
+
     private TableRow orbRow1;
     private TableRow orbRow2;
     private TableRow orbRow3;
+
+    private View gameArea;
+    private Canvas canvas;
 
     // The ImageViews that represent the orbs
     private ImageView[] orbs;
@@ -44,7 +54,7 @@ public class GameActivity extends AppCompatActivity
     private int lives;
 
     // The colors of the nets
-    private static final int[] NET_COLORS = {
+    public static final int[] NET_COLORS = {
             R.mipmap.blue_net,
             R.mipmap.green_net,
             R.mipmap.red_net,
@@ -52,12 +62,28 @@ public class GameActivity extends AppCompatActivity
     };
 
     // The colors of the orbs
-    private static final int[] ORB_COLORS = {
-            R.mipmap.blue_orb,
-            R.mipmap.green_orb,
-            R.mipmap.red_orb,
-            R.mipmap.yellow_orb
+    public static final int[] ORB_COLORS = {
+            R.drawable.blue_orb,
+            R.drawable.green_orb,
+            R.drawable.red_orb,
+            R.drawable.yellow_orb
     };
+
+    // draws all orbs to screen
+    private void DrawOrbsToScreen()
+    {
+        //Toast.makeText(this, "InsideDrawOrbsToScreen", Toast.LENGTH_SHORT).show();
+
+        for (int i = 0; i < ORB_COUNT; i++)
+        {
+            int currentOrbColor = ORB_COLORS[i % ORB_COLORS.length];
+
+            ImageView orbImage = new ImageView(this);
+            orbImage.setBackgroundColor(Color.WHITE);
+            //Orb newOrb = new Orb(currentOrbColor, orbImage);
+            orbLayout.addView(orbImage);
+        }
+    }
 
 
     @Override
@@ -66,14 +92,8 @@ public class GameActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-
-        //orbLayout = findViewById(R.id.orbTableLayout);
-
-        //orbRow1 = findViewById(R.id.orbRow1);
-        //orbRow2 = findViewById(R.id.orbRow2);
-        //orbRow3 = findViewById(R.id.orbRow3);
-
         netLayout = findViewById(R.id.netsLayout);
+        orbLayout = findViewById(R.id.orbLayout);
 
         // Create the orbs and add them to the layout
         orbs = new ImageView[ORB_COUNT];
@@ -85,6 +105,8 @@ public class GameActivity extends AppCompatActivity
             net.setImageResource(color);
             netLayout.addView(net);
         }
+
+        DrawOrbsToScreen();
 
         /*
         for (int i = 0; i < ORB_COUNT; i++)
